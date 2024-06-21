@@ -1,0 +1,124 @@
+<style>
+  /* The popup form - hidden by default */
+  .approval-popup {
+    display: none;
+    position: fixed;
+    top: 100px;
+    left: 25px;
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
+    z-index: 100;
+    height: 500px;
+    margin: 0px 10px 0px 30px;
+    overflow: auto;
+  }
+
+  .btn.btn-primary.logout-btn.popup-btn {
+    margin: 0px;
+  }
+
+  form.message button {
+    width: auto;
+    margin-bottom: 10px;
+  }
+
+  form.message textarea {
+    height: 100px;
+  }
+
+  .message-content p {
+    max-width: 500px;
+    margin: 10px 0px 30px 0px;
+    color: lightblue;
+  }
+
+  .btn.btn-success.approve-btn {
+    right: 30px;
+    margin-top: 5px;
+  }
+
+  .comment-section {
+    margin-top: 20px;
+  }
+</style>
+
+<div class="card approval-popup" id="approvalBox">
+  <% if(userstatus === "student"){%>
+  <h4 class="card-subtitle">Ask Defence Approval</h4>
+  <% } else if(userstatus === "teacher"){%>
+  <h4 class="card-subtitle">Approve for Defence</h4>
+  <%}%>
+  <hr style="border-top: 1px solid white; margin: 20px 0px 10px 0px" />
+  <div class="message-content">
+    <form method="POST" action="/project/requestApproveDefence/<%= pId%>" class="message">
+  <% if(userstatus === "student"){%>
+  <div class="form-group">
+    <label for="college">Message for Supervisor</label>
+    <textarea type="string" class="form-control" id="description" name="message" required></textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary logout-btn" name="action">
+    Ask Approval
+  </button>
+
+
+  <% } else if(userstatus === "teacher"){%>
+  <p>
+    <% if (project.midDefence.approved==true) { %>
+    <%= project.finalDefence.message %>
+    <% } else { %>
+    <%= project.midDefence.message %>
+    <% } %>
+
+  </p>
+
+  <button type="submit" class="btn btn-success approve-btn" name="action">Approve</button>
+  <%}%>
+  </form>
+  </div>
+<% if (project.midDefence.approved==true) { %>
+  <% project.defComment.forEach(cmt => { %>
+    <% if (cmt.option == "final") { %>
+      <div class="comment-section">
+        <p class="comment-view">
+          <%= cmt.commentedBy.split(' ').pop().charAt(0)%>.<%=
+          cmt.commentedBy.split(' ')[0]%> <span><%= cmt.comment%></span>
+        </p>
+      </div>
+    <% } %>
+  <% }) %>
+  <% } else { %>
+    <% project.defComment.forEach(cmt => { %>
+      <% if (cmt.option == "mid") { %>
+        <div class="comment-section">
+          <p class="comment-view">
+            <%= cmt.commentedBy.split(' ').pop().charAt(0)%>.<%=
+            cmt.commentedBy.split(' ')[0]%> <span><%= cmt.comment%></span>
+          </p>
+        </div>
+      <% } %>
+    <% }) %>
+  
+<% } %>
+  
+  <form class="comment-form" action="/project/defenceComment/<%= pId %>" method="POST">
+    <div class="form-group">
+      <input type="text" class="form-control" id="DefenseComment" name="cmt" placeholder="Add Comments" />
+      <button type="submit" class="btn btn-primary logout-btn">Post</button>
+    </div>
+  </form>
+  <hr style="border-top: 1px solid white; margin: 20px 0px" />
+  <button type="button" class="btn btn-primary logout-btn popup-btn" onclick="closeApproval()">
+    Close
+  </button>
+</div>
+
+<script>
+  function openApproval() {
+    document.getElementById("approvalBox").style.display = "block";
+  }
+
+  function closeApproval() {
+    document.getElementById("approvalBox").style.display = "none";
+  }
+</script>
