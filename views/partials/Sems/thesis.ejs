@@ -14,6 +14,7 @@
   <%projects.forEach( function(projects ){ %>
   <% if(projects.semester=="unselected" && !projects.isCompleted ) { %>
     <%console.log(projects.semester)%>
+    <%console.log(projects.supervisor)%>
   <div class="card ">
       <div class="project-card">
           <h4 class="card-title" style="margin-right: 50px;"><%= projects.projectname%></h4>
