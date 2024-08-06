@@ -1,5 +1,6 @@
 
 <div class="view hide hidden" id="sem1">
+
     <% var ongoing=0;var compProjects = new Array();projects.forEach(projects => { %>
         <% if (!projects.isCompleted && projects.semester=="1") { %>
             <% ongoing+=1; %> 
@@ -17,7 +18,7 @@
         <div class="card ">
             <div class="project-card">
                 <h4 class="card-title"><%= projects.projectname%></h4>
-                <p class="card-text">SUPERVISED BY: <%= projects.supervisor[0].split(':')[0]%><br />
+                <p class="card-text">SUPERVISED BY: <%= projects.supervisor %><br />
                     STUDENTS:
                     <% projects.team.forEach(function(team) { %>
                     <% if(team!=null ) { %>
@@ -67,7 +68,7 @@
                 <div class="card ">
                     <div class="project-card">
                         <h4 class="card-title"><%= projects.projectname%></h4>
-                        <p class="card-text">SUPERVISED BY: <%= projects.supervisor[0].split(':')[0]%><br />
+                        <p class="card-text">SUPERVISED BY: <%= projects.supervisor %><br />
                             STUDENTS:
                             <% projects.team.forEach(function(team) { %>
                             <% if(team!=null ) { %>

@@ -29,10 +29,10 @@ var ProjectSchema = new mongoose.Schema({
   },
   subject: {
     type: String,
-    required: true,
+  //  required: true,
   },
   supervisor: {
-    type: [String],
+    type: String,
     required: true,
   },
   team: {
