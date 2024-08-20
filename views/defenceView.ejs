@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+
+  <body style="background-color: #1f3750">
+    <% if (userstatus == "teacher") { %>
+      <%- include('partials/teacherheader') %>
+    <% } else if (userstatus == "student") { %>
+      <%- include('partials/header') %>
+    <% } else { %>
+      <%- include('partials/adminHeader') %>
+    <% } %>
+
+    <div class="container">
+      <h3>Defenses Overview</h3>
+
+      <!-- Admin or Teacher should see these buttons to toggle views -->
+      <% if (userstatus == "admin" || userstatus == "teacher") { %>
+      <div class="buttons-div row">
+        <button id="ongoingDefensesBtn" class="col semBtn">Ongoing Defenses</button>
+        <button id="upcomingDefensesBtn" class="col semBtn">Upcoming Defenses</button>
+        <button id="completedDefensesBtn" class="col semBtn">Completed Defenses</button>
+      </div>
+      <% } %>
+
+      <!-- Ongoing Defenses Section -->
+      <div id="ongoingDefensesSection" style="display:none;">
+        <h4>Ongoing Defenses</h4>
+        <% if (ongoingDefenses.length > 0) { %>
+        <ul>
+          <% ongoingDefenses.forEach(defense => { %>
+          <li>
+            <strong>Term:</strong> <%= defense.term %><br />
+            <strong>Faculty:</strong> <%= defense.faculty %><br />
+            <strong>Semester:</strong> <%= defense.semester %><br />
+            <strong>Subject:</strong> <%= defense.subject %><br />
+            <strong>Date:</strong> <%= new Date(defense.defenseDate).toDateString() %><br />
+            <strong>Time:</strong> <%= defense.defenseTime %><br />
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p>No ongoing defenses.</p>
+        <% } %>
+      </div>
+
+      <!-- Upcoming Defenses Section -->
+      <div id="upcomingDefensesSection" style="display:none;">
+        <h4>Upcoming Defenses</h4>
+        <% if (upcomingDefenses.length > 0) { %>
+        <ul>
+          <% upcomingDefenses.forEach(defense => { %>
+          <li>
+            <strong>Term:</strong> <%= defense.term %><br />
+            <strong>Faculty:</strong> <%= defense.faculty %><br />
+            <strong>Semester:</strong> <%= defense.semester %><br />
+            <strong>Subject:</strong> <%= defense.subject %><br />
+            <strong>Date:</strong> <%= new Date(defense.defenseDate).toDateString() %><br />
+            <strong>Time:</strong> <%= defense.defenseTime %><br />
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p>No upcoming defenses.</p>
+        <% } %>
+      </div>
+
+      <!-- Completed Defenses Section -->
+      <div id="completedDefensesSection" style="display:none;">
+        <h4>Completed Defenses</h4>
+        <% if (completedDefenses.length > 0) { %>
+        <ul>
+          <% completedDefenses.forEach(defense => { %>
+          <li>
+            <strong>Term:</strong> <%= defense.term %><br />
+            <strong>Faculty:</strong> <%= defense.faculty %><br />
+            <strong>Semester:</strong> <%= defense.semester %><br />
+            <strong>Subject:</strong> <%= defense.subject %><br />
+            <strong>Date:</strong> <%= new Date(defense.defenseDate).toDateString() %><br />
+            <strong>Time:</strong> <%= defense.defenseTime %><br />
+          </li>
+          <% }) %>
+        </ul>
+        <% } else { %>
+        <p>No completed defenses.</p>
+        <% } %>
+      </div>
+
+      <div><%- include('./partials/messages') %></div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // Initialize view by showing ongoing defenses
+        $("#ongoingDefensesSection").show();
+
+        // Switch to Ongoing Defenses View
+        $("#ongoingDefensesBtn").on("click", function () {
+          $(".buttons-div button").removeClass("activeBtn");
+          $(this).addClass("activeBtn");
+          $(".container div[id$='Section']").hide();
+          $("#ongoingDefensesSection").show();
+        });
+
+        // Switch to Upcoming Defenses View
+        $("#upcomingDefensesBtn").on("click", function () {
+          $(".buttons-div button").removeClass("activeBtn");
+          $(this).addClass("activeBtn");
+          $(".container div[id$='Section']").hide();
+          $("#upcomingDefensesSection").show();
+        });
+
+        // Switch to Completed Defenses View
+        $("#completedDefensesBtn").on("click", function () {
+          $(".buttons-div button").removeClass("activeBtn");
+          $(this).addClass("activeBtn");
+          $(".container div[id$='Section']").hide();
+          $("#completedDefensesSection").show();
+        });
+      });
+    </script>
+
+    <script src="/javascripts/userChange.js"></script>
+    <script src="/javascripts/linkActive.js"></script>
+  </body>
+</html>

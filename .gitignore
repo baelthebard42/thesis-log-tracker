@@ -1,0 +1,7 @@
+node_modules
+routes/uploads
+.vscode
+public/uploads
+.idea
+config/config.env
+config/config.env.backup
